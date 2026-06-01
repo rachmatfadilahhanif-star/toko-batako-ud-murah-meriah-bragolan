@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>UD Murah Meriah Bragolan - Toko Batako Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dfd1 100%);
+            color: #2d2418;
+            scroll-behavior: smooth;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up { animation: fadeInUp 0.5s ease forwards; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 1.2rem; }
+        
+        /* Navbar */
+        .navbar {
+            background: #5c3e2b;
+            border-radius: 2rem;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .logo h1 { font-size: 1.5rem; color: #ffd89b; }
+        .logo p { font-size: 0.75rem; color: #e8d5b5; }
+        .btn-admin {
+            background: #d9a13b;
+            border: none;
+            padding: 0.6rem 1.3rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #2d2418;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            background: white;
+            border-radius: 3rem;
+            padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border-radius: 2rem;
+            outline: none;
+        }
+        .search-box button {
+            background: #5c3e2b;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            color: white;
+            cursor: pointer;
+        }
+        
+        /* Running Text */
+        .running-area {
+            background: #2d2418;
+            border-radius: 3rem;
+            padding: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+        marquee { color: #ffd89b; font-weight: 600; }
+        
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.2rem; }
+        
+        /* Profile */
+        .profile-wrapper { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+        .owner-photo {
+            width: 120px; height: 120px; object-fit: cover;
+            border-radius: 50%; border: 4px solid #d9a13b;
+        }
+        .info-row { display: flex; align-items: center; gap: 12px; margin: 10px 0; flex-wrap: wrap; }
+        .info-icon {
+            width: 34px; height: 34px; background: #f0e4d0;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* Items */
+        .item-card {
+            background: #fef8ef;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .item-img {
+            width: 100%; height: 150px; object-fit: cover;
+            border-radius: 0.8rem; margin-bottom: 0.5rem;
+        }
+        .item-price { color: #d9a13b; font-weight: bold; margin-top: 5px; }
+        
+        /* Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px); justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: white; max-width: 550px; width: 90%;
+            border-radius: 1.5rem; padding: 1.5rem;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .close-modal { font-size: 1.8rem; cursor: pointer; }
+        input, textarea {
+            width: 100%; padding: 0.7rem; margin: 0.5rem 0;
+            border: 1px solid #ddd; border-radius: 1rem;
+        }
+        button.primary {
+            background: #5c3e2b; color: white; border: none;
+            padding: 0.7rem 1.2rem; border-radius: 2rem; cursor: pointer;
+        }
+        .btn-wa { background: #25D366; }
+        .success-toast {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #2e7d32; color: white; padding: 10px 20px;
+            border-radius: 2rem; z-index: 2100;
+        }
+        .badge { background: #d9a13b20; padding: 4px 12px; border-radius: 2rem; font-size: 0.8rem; cursor: pointer; }
+        footer { text-align: center; background: #2d2418; color: #e8d5b5; border-radius: 2rem; padding: 1rem; margin-top: 1rem; }
+        @media (max-width: 700px) {
+            .navbar { flex-direction: column; text-align: center; gap: 1rem; }
+            .profile-wrapper { flex-direction: column; text-align: center; }
+        }
+        .no-result { text-align: center; padding: 2rem; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <h1><i class="fas fa-hard-hat"></i> UD Murah Meriah Bragolan</h1>
+            <p>Toko Batako & Material | Harga Pabrik</p>
+        </div>
+        <button class="btn-admin" id="adminPanelBtn"><i class="fas fa-lock"></i> Admin Panel</button>
+    </div>
+
+    <!-- Running Text -->
+    <div class="running-area">
+        <marquee behavior="scroll" direction="left" id="runningTextMarquee">🏆 Batako Super Padat | Free Ongkir Bragolan | Partai Besar & Kecil</marquee>
+    </div>
+
+    <!-- Pencarian -->
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search" style="align-self:center; color:#999;"></i>
+            <input type="text" id="searchInput" placeholder="Cari produk atau fasilitas... (contoh: batako, mesin, press)">
+            <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
+            <button id="resetSearchBtn" style="background:#888;"><i class="fas fa-times"></i> Reset</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="publicContent">
+        <!-- Profile Pemilik -->
+        <div class="card animate-fade-up">
+            <h2><i class="fas fa-user-tie"></i> Profil Pemilik</h2>
+            <div class="profile-wrapper">
+                <img id="ownerPhotoImg" class="owner-photo" src="https://placehold.co/120x120/e8dccc/5c3e2b?text=Foto" alt="Foto">
+                <div style="flex:1">
+                    <div class="info-row"><div class="info-icon"><i class="fas fa-user"></i></div><strong id="ownerNameSpan">-</strong></div>
+                    <div class="info-row"><div class="info-icon"><i class="fab fa-whatsapp"></i></div><span id="ownerPhoneSpan">-</span>
+                        <button id="copyPhoneBtn" class="badge"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <div class="info-row"><div class="info-icon"><i class="fas fa-envelope"></i></div><span id="ownerEmailSpan">-</span></div>
+                    <div class="info-row"><div class="info-icon"><i class="fas fa-map-marker-alt"></i></div><span id="ownerAddressSpan">-</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fasilitas -->
+        <div class="card animate-fade-up">
+            <h2><i class="fas fa-industry"></i> Fasilitas Produksi</h2>
+            <div id="facilitiesList" class="grid-3"></div>
+        </div>
+
+        <!-- Barang Tersedia -->
+        <div class="card animate-fade-up">
+            <h2><i class="fas fa-boxes"></i> Produk & Harga</h2>
+            <div id="productsList" class="grid-3"></div>
+        </div>
+
+        <!-- Maps -->
+        <div class="card animate-fade-up">
+            <h2><i class="fas fa-map"></i> Lokasi & Kontak</h2>
+            <div class="grid-2">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15814.5!2d110.123!3d-7.123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7b9a2b3c4d5e6f%3A0x123456789abcdef!2sBragolan!5e0!3m2!1sid!2sid!4v1680000000000" width="100%" height="250" style="border-radius:1rem;" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div>
+                    <p><i class="fas fa-clock"></i> <strong>Jam:</strong> Senin-Sabtu 08.00-17.00</p>
+                    <p><i class="fas fa-truck"></i> <strong>Layanan:</strong> Antar Bragolan & Sekitarnya</p>
+                    <button id="whatsappBtn" class="primary btn-wa" style="margin-top:1rem;"><i class="fab fa-whatsapp"></i> Chat WA</button>
+                </div>
+            </div>
+            <p style="margin-top:1rem;"><a href="https://maps.app.goo.gl/RYiTxQ4RrHrLRHmC8" target="_blank" style="color:#5c3e2b;">🗺️ Buka Google Maps Lengkap →</a></p>
+        </div>
+
+        <!-- Berita -->
+        <div class="card animate-fade-up">
+            <h2><i class="fas fa-newspaper"></i> Berita & Pengumuman</h2>
+            <div id="newsDisplay" style="background:#fdf7ef; padding:1rem; border-radius:1rem;"></div>
+        </div>
+        <footer>© 2024 UD Murah Meriah Bragolan | Data tersimpan di Google Drive</footer>
+    </div>
+</div>
+
+<!-- Modal Admin -->
+<div id="adminModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2><i class="fas fa-crown"></i> Panel Admin</h2><span class="close-modal" id="closeAdminModal">&times;</span></div>
+        <div id="adminAuthSection">
+            <input type="password" id="adminPassword" placeholder="Password Kontributor">
+            <button id="verifyAdminBtn" class="primary"><i class="fas fa-key"></i> Verifikasi</button>
+            <p style="margin-top:10px;">*Password: hanif123$</p>
+        </div>
+        <div id="adminPanelContent" style="display:none;">
+            <h3>Edit Data Bisnis</h3>
+            <h4>Profil & Kontak</h4>
+            <input type="text" id="editOwnerName" placeholder="Nama Pemilik">
+            <input type="tel" id="editOwnerPhone" placeholder="No Telepon">
+            <input type="email" id="editOwnerEmail" placeholder="Email">
+            <textarea id="editOwnerAddress" rows="2" placeholder="Alamat"></textarea>
+            <label>Upload Foto Profil</label>
+            <input type="file" id="uploadOwnerPhoto" accept="image/*">
+            
+            <h4>Tambah Fasilitas</h4>
+            <input type="text" id="newFacilityName" placeholder="Nama Fasilitas">
+            <input type="file" id="newFacilityPhoto" accept="image/*">
+            <button id="addFacilityBtn" class="primary">+ Tambah Fasilitas</button>
+            <div id="adminFacilitiesList" style="margin:10px 0;"></div>
+
+            <h4>Tambah Produk</h4>
+            <input type="text" id="newProductName" placeholder="Nama Produk">
+            <input type="text" id="newProductPrice" placeholder="Harga (Rp)">
+            <input type="file" id="newProductPhoto" accept="image/*">
+            <button id="addProductBtn" class="primary">+ Tambah Produk</button>
+            <div id="adminProductsList" style="margin:10px 0;"></div>
+
+            <h4>Berita & Teks Jalan</h4>
+            <textarea id="editNews" rows="3" placeholder="Berita terbaru"></textarea>
+            <input type="text" id="editRunningText" placeholder="Teks berjalan">
+            <button id="saveAllDataBtn" class="primary" style="background:#2e7d32;"><i class="fas fa-save"></i> Simpan Semua ke Drive</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== KONFIGURASI ASLI ANDA ==========
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzagAksZ_UJjrDFW8AB_9l0p4Y8z4Ww8LVO-xWELDIFZSFSOva1IbNx3BrIX-tivw2/exec";
+    const DRIVE_FOLDER_ID = "1KXKoOUBHUCOVDEOm8ESx4rNe5DSiwEpC";
+    
+    let businessData = {
+        owner: { name: "", phone: "", email: "", address: "", photoBase64: "", photoUrl: "" },
+        facilities: [],
+        products: [],
+        news: "",
+        runningText: ""
+    };
+    
+    let originalFacilities = [];
+    let originalProducts = [];
+    let searchActive = false;
+
+    function showToast(msg) {
+        let toast = document.createElement('div');
+        toast.className = 'success-toast';
+        toast.innerHTML = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+
+    // Load data dari Google Apps Script
+    async function loadData() {
+        try {
+            showToast("🔄 Memuat data dari Google Drive...");
+            const res = await fetch(`${SCRIPT_URL}?t=${Date.now()}&folderId=${DRIVE_FOLDER_ID}`);
+            const result = await res.json();
+            if(result.status === "success" && result.data) {
+                businessData = result.data;
+                originalFacilities = [...(businessData.facilities || [])];
+                originalProducts = [...(businessData.products || [])];
+                showToast("✅ Data berhasil dimuat!");
+                renderPublic();
+            } else {
+                console.warn("Data kosong, pakai default");
+                renderPublic();
+            }
+        } catch(e) { 
+            console.error("Gagal load:", e);
+            showToast("⚠️ Gagal koneksi ke server, cek URL Script");
+            renderPublic();
+        }
+    }
+
+    // Fungsi Pencarian
+    function searchItems(keyword) {
+        if (!keyword.trim()) {
+            searchActive = false;
+            renderPublic();
+            return;
+        }
+        searchActive = true;
+        const lowerKeyword = keyword.toLowerCase();
+        
+        // Filter fasilitas
+        const filteredFacilities = originalFacilities.filter(f => 
+            f.name && f.name.toLowerCase().includes(lowerKeyword)
+        );
+        // Filter produk
+        const filteredProducts = originalProducts.filter(p => 
+            (p.name && p.name.toLowerCase().includes(lowerKeyword)) ||
+            (p.price && p.price.toLowerCase().includes(lowerKeyword))
+        );
+        
+        // Render dengan hasil filter
+        renderFilteredResults(filteredFacilities, filteredProducts, keyword);
+    }
+    
+    function renderFilteredResults(facilities, products, keyword) {
+        // Profile & teks tetap sama
+        document.getElementById("ownerNameSpan").innerText = businessData.owner.name || "Belum diisi";
+        document.getElementById("ownerPhoneSpan").innerText = businessData.owner.phone || "-";
+        document.getElementById("ownerEmailSpan").innerText = businessData.owner.email || "-";
+        document.getElementById("ownerAddressSpan").innerText = businessData.owner.address || "-";
+        if(businessData.owner.photoUrl) document.getElementById("ownerPhotoImg").src = businessData.owner.photoUrl;
+        document.getElementById("runningTextMarquee").innerText = businessData.runningText || "🏆 Batako Super Padat!";
+        document.getElementById("newsDisplay").innerHTML = `<i class="fas fa-bullhorn"></i> ${businessData.news || "Selamat datang!"}`;
+        
+        // Fasilitas hasil filter
+        const facilitiesDiv = document.getElementById("facilitiesList");
+        facilitiesDiv.innerHTML = "";
+        if(facilities.length === 0) {
+            facilitiesDiv.innerHTML = `<div class="no-result"><i class="fas fa-search"></i> Tidak ada fasilitas untuk "${keyword}"</div>`;
+        } else {
+            facilities.forEach(f => {
+                let div = document.createElement("div");
+                div.className = "item-card";
+                div.innerHTML = `
+                    ${f.photoUrl ? `<img src="${f.photoUrl}" class="item-img" onerror="this.src='https://placehold.co/250x150/e8dccc/5c3e2b?text=Fasilitas'">` : `<div class="item-img" style="background:#e8dccc; display:flex;align-items:center;justify-content:center;"><i class="fas fa-industry fa-3x"></i></div>`}
+                    <strong>${escapeHtml(f.name)}</strong>
+                `;
+                facilitiesDiv.appendChild(div);
+            });
+        }
+        
+        // Produk hasil filter
+        const productsDiv = document.getElementById("productsList");
+        productsDiv.innerHTML = "";
+        if(products.length === 0) {
+            productsDiv.innerHTML = `<div class="no-result"><i class="fas fa-search"></i> Tidak ada produk untuk "${keyword}"</div>`;
+        } else {
+            products.forEach(p => {
+                let div = document.createElement("div");
+                div.className = "item-card";
+                div.innerHTML = `
+                    ${p.photoUrl ? `<img src="${p.photoUrl}" class="item-img" onerror="this.src='https://placehold.co/250x150/e8dccc/5c3e2b?text=Produk'">` : `<div class="item-img" style="background:#e8dccc; display:flex;align-items:center;justify-content:center;"><i class="fas fa-brick fa-3x"></i></div>`}
+                    <strong>${escapeHtml(p.name)}</strong>
+                    <div class="item-price">💰 ${p.price || "Hubungi CS"}</div>
+                `;
+                productsDiv.appendChild(div);
+            });
+        }
+    }
+    
+    function resetSearch() {
+        searchActive = false;
+        document.getElementById("searchInput").value = "";
+        renderPublic();
+        showToast("🔍 Pencarian direset, semua data ditampilkan");
+    }
+    
+    function renderPublic() {
+        if(searchActive) return;
+        
+        document.getElementById("ownerNameSpan").innerText = businessData.owner.name || "Belum diisi";
+        document.getElementById("ownerPhoneSpan").innerText = businessData.owner.phone || "-";
+        document.getElementById("ownerEmailSpan").innerText = businessData.owner.email || "-";
+        document.getElementById("ownerAddressSpan").innerText = businessData.owner.address || "-";
+        if(businessData.owner.photoUrl) document.getElementById("ownerPhotoImg").src = businessData.owner.photoUrl;
+        document.getElementById("runningTextMarquee").innerText = businessData.runningText || "🏆 Batako Super Padat, Free Ongkir Area Bragolan!";
+        document.getElementById("newsDisplay").innerHTML = `<i class="fas fa-bullhorn"></i> ${businessData.news || "Selamat datang di Toko Batako UD Murah Meriah!"}`;
+        
+        const facilitiesDiv = document.getElementById("facilitiesList");
+        facilitiesDiv.innerHTML = "";
+        if(!businessData.facilities || businessData.facilities.length === 0) facilitiesDiv.innerHTML = "<p>Belum ada data fasilitas</p>";
+        businessData.facilities.forEach(f => {
+            let div = document.createElement("div");
+            div.className = "item-card";
+            div.innerHTML = `
+                ${f.photoUrl ? `<img src="${f.photoUrl}" class="item-img" onerror="this.src='https://placehold.co/250x150/e8dccc/5c3e2b?text=Fasilitas'">` : `<div class="item-img" style="background:#e8dccc; display:flex;align-items:center;justify-content:center;"><i class="fas fa-industry fa-3x"></i></div>`}
+                <strong>${escapeHtml(f.name)}</strong>
+            `;
+            facilitiesDiv.appendChild(div);
+        });
+        
+        const productsDiv = document.getElementById("productsList");
+        productsDiv.innerHTML = "";
+        if(!businessData.products || businessData.products.length === 0) productsDiv.innerHTML = "<p>Produk akan segera diupdate</p>";
+        businessData.products.forEach(p => {
+            let div = document.createElement("div");
+            div.className = "item-card";
+            div.innerHTML = `
+                ${p.photoUrl ? `<img src="${p.photoUrl}" class="item-img" onerror="this.src='https://placehold.co/250x150/e8dccc/5c3e2b?text=Produk'">` : `<div class="item-img" style="background:#e8dccc; display:flex;align-items:center;justify-content:center;"><i class="fas fa-brick fa-3x"></i></div>`}
+                <strong>${escapeHtml(p.name)}</strong>
+                <div class="item-price">💰 ${p.price || "Hubungi CS"}</div>
+            `;
+            productsDiv.appendChild(div);
+        });
+    }
+
+    function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;});}
+
+    async function saveToDrive() {
+        const payload = {
+            action: "saveAll",
+            passwordToken: "hanif123$",
+            folderId: DRIVE_FOLDER_ID,
+            data: businessData
+        };
+        try {
+            showToast("💾 Menyimpan ke Google Drive...");
+            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+            showToast("✅ Semua data berhasil disimpan ke Google Drive!");
+            // Refresh data
+            await loadData();
+        } catch(e) { alert("Gagal simpan: "+e); }
+    }
+
+    function renderAdminLists() {
+        const adminFacDiv = document.getElementById("adminFacilitiesList");
+        adminFacDiv.innerHTML = "<strong>Fasilitas:</strong><br>";
+        businessData.facilities.forEach((f, i) => {
+            adminFacDiv.innerHTML += `<div>📌 ${f.name} <button class="delFac" data-idx="${i}" style="background:#b35f2a; border:none; border-radius:1rem; padding:2px 10px; margin-left:8px;">Hapus</button></div>`;
+        });
+        document.querySelectorAll(".delFac").forEach(btn => {
+            btn.onclick = () => { businessData.facilities.splice(btn.dataset.idx,1); renderAdminLists(); saveToDrive(); };
+        });
+        const adminProdDiv = document.getElementById("adminProductsList");
+        adminProdDiv.innerHTML = "<strong>Produk:</strong><br>";
+        businessData.products.forEach((p, i) => {
+            adminProdDiv.innerHTML += `<div>🧱 ${p.name} - ${p.price} <button class="delProd" data-idx="${i}" style="background:#b35f2a; border-radius:1rem; padding:2px 8px; margin-left:8px;">Hapus</button></div>`;
+        });
+        document.querySelectorAll(".delProd").forEach(btn => {
+            btn.onclick = () => { businessData.products.splice(btn.dataset.idx,1); renderAdminLists(); saveToDrive(); };
+        });
+        document.getElementById("editOwnerName").value = businessData.owner.name || "";
+        document.getElementById("editOwnerPhone").value = businessData.owner.phone || "";
+        document.getElementById("editOwnerEmail").value = businessData.owner.email || "";
+        document.getElementById("editOwnerAddress").value = businessData.owner.address || "";
+        document.getElementById("editNews").value = businessData.news || "";
+        document.getElementById("editRunningText").value = businessData.runningText || "";
+    }
+
+    // Event Listeners
+    document.getElementById("adminPanelBtn").onclick = () => document.getElementById("adminModal").style.display = "flex";
+    document.getElementById("closeAdminModal").onclick = () => document.getElementById("adminModal").style.display = "none";
+    document.getElementById("verifyAdminBtn").onclick = () => {
+        if(document.getElementById("adminPassword").value === "hanif123$") {
+            document.getElementById("adminAuthSection").style.display = "none";
+            document.getElementById("adminPanelContent").style.display = "block";
+            renderAdminLists();
+        } else alert("Password salah!");
+    };
+    
+    document.getElementById("addFacilityBtn").onclick = () => {
+        let name = document.getElementById("newFacilityName").value.trim();
+        let file = document.getElementById("newFacilityPhoto").files[0];
+        if(!name) return alert("Masukkan nama fasilitas");
+        if(file) {
+            let reader = new FileReader();
+            reader.onload = (ev) => {
+                businessData.facilities.push({ name: name, photoBase64: ev.target.result, photoUrl: "" });
+                renderAdminLists();
+                saveToDrive();
+            };
+            reader.readAsDataURL(file);
+        } else { businessData.facilities.push({ name: name }); renderAdminLists(); saveToDrive(); }
+        document.getElementById("newFacilityName").value = "";
+        document.getElementById("newFacilityPhoto").value = "";
+    };
+    
+    document.getElementById("addProductBtn").onclick = () => {
+        let name = document.getElementById("newProductName").value.trim();
+        let price = document.getElementById("newProductPrice").value;
+        let file = document.getElementById("newProductPhoto").files[0];
+        if(!name) return alert("Nama produk harus diisi");
+        if(file) {
+            let reader = new FileReader();
+            reader.onload = (ev) => {
+                businessData.products.push({ name: name, price: price, photoBase64: ev.target.result, photoUrl: "" });
+                renderAdminLists();
+                saveToDrive();
+            };
+            reader.readAsDataURL(file);
+        } else { businessData.products.push({ name: name, price: price }); renderAdminLists(); saveToDrive(); }
+        document.getElementById("newProductName").value = "";
+        document.getElementById("newProductPrice").value = "";
+        document.getElementById("newProductPhoto").value = "";
+    };
+    
+    document.getElementById("uploadOwnerPhoto").onchange = (e) => {
+        let file = e.target.files[0];
+        if(file) {
+            let reader = new FileReader();
+            reader.onload = (ev) => {
+                businessData.owner.photoBase64 = ev.target.result;
+                saveToDrive();
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    document.getElementById("saveAllDataBtn").onclick = () => {
+        businessData.owner.name = document.getElementById("editOwnerName").value;
+        businessData.owner.phone = document.getElementById("editOwnerPhone").value;
+        businessData.owner.email = document.getElementById("editOwnerEmail").value;
+        businessData.owner.address = document.getElementById("editOwnerAddress").value;
+        businessData.news = document.getElementById("editNews").value;
+        businessData.runningText = document.getElementById("editRunningText").value;
+        saveToDrive();
+    };
+    
+    document.getElementById("copyPhoneBtn").onclick = () => { 
+        if(businessData.owner.phone) { 
+            navigator.clipboard.writeText(businessData.owner.phone); 
+            showToast("📋 Nomor tersalin!"); 
+        } else alert("Nomor belum diisi"); 
+    };
+    
+    document.getElementById("whatsappBtn").onclick = () => { 
+        let phone = businessData.owner.phone?.replace(/\D/g,''); 
+        if(phone) window.open(`https://wa.me/${phone}`, '_blank'); 
+        else alert("Nomor WA belum diisi"); 
+    };
+    
+    // Event Pencarian
+    document.getElementById("searchBtn").onclick = () => {
+        const keyword = document.getElementById("searchInput").value.trim();
+        searchItems(keyword);
+    };
+    document.getElementById("resetSearchBtn").onclick = resetSearch;
+    document.getElementById("searchInput").addEventListener("keypress", (e) => {
+        if(e.key === "Enter") searchItems(e.target.value.trim());
+    });
+    
+    // Load pertama kali
+    loadData();
+</script>
+</body>
+</html>
